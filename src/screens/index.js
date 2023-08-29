@@ -1,0 +1,13 @@
+export {default as Splash} from "./../screens/Splash";
+export {default as OnboardScreen} from "./../screens/OnboardScreen";
+export {default as Login} from "./../screens/Login";
+export {default as Home} from "./../screens/Home";
+export {default as Report} from "./../screens/Report";
+export {default as StartScan} from "./../screens/StartScan";
+export {default as TakeAttendance} from "./../screens/TakeAttendance";
+export {default as Record} from "./../screens/Record";
+export {default as AttendanceDetails} from "./../screens/AttendanceDetails";
+export {default as Confirmation} from "./../screens/Confirmation";
+export {default as Profile} from "./../screens/Profile";
+export {default as ProfileDetails} from "./../screens/ProfileDetails";
+export {default as BarcodeScreen} from "./../screens/BarcodeScreen";
