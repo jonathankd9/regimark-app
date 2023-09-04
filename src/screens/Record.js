@@ -16,8 +16,12 @@ import Fail from "./../../assets/files/fail.png";
 import {
 	useFocusEffect, // import useFocusEffect from react-navigation
 } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Record = ({navigation}) => {
+	const API_URL = "https://jkd6735.pythonanywhere.com";
+
 	const [isLoading, setIsLoading] = useState(false);
 
 	const hideSuccessModal = () => {
@@ -68,7 +72,53 @@ const Record = ({navigation}) => {
 
 	// Constants for inputs
 	const [fullName, setFullName] = React.useState(false);
-	const [id, setId] = React.useState(false);
+	const [studentId, setStudentId] = React.useState(false);
+	const [code, setCode] = React.useState(false);
+
+	const handleSuccessAttendance = async (courseCode, code, token) => {
+		try {
+			// if (!fullName || !studentId || !uniqueCode) {
+			// 	alert("Please enter all details");
+			// 	return; // Exit the function if any field is empty
+			// }
+
+			const apiUrl = `${API_URL}/api/attendance`;
+
+			// Prepare the request payload
+			const requestBody = {
+				course_code: courseCode,
+				code: code,
+			};
+
+			// Prepare the request headers, including the authorization token
+			const headers = {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			};
+
+			// Make the POST request using Axios
+			const response = await axios.post(apiUrl, requestBody, {
+				headers: headers,
+			});
+
+			// Check if the response status is OK (200)
+			if (response.status === 200) {
+				// Handle success
+				// You can perform any actions you need here when the request is successful
+				console.log("Attendance recorded successfully");
+			} else {
+				// Handle errors or other status codes
+				console.error("Failed to record attendance");
+			}
+
+			// Set loading state to false
+			setIsLoading(false);
+		} catch (error) {
+			console.error("An error occurred:", error);
+			// Set loading state to false
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<SafeAreaView className="flex-1">
@@ -107,7 +157,7 @@ const Record = ({navigation}) => {
 						placeholder="Student ID"
 						placeholderTextColor="#9C9C9C"
 						autoCapitalize="none"
-						value={id}
+						value={studentId}
 						// onChangeText={handlePinchange}
 					/>
 
@@ -118,7 +168,7 @@ const Record = ({navigation}) => {
 						placeholder="Unique Code"
 						placeholderTextColor="#9C9C9C"
 						autoCapitalize="none"
-						value={id}
+						value={code}
 						// onChangeText={handlePinchange}
 						secureTextEntry
 					/>
@@ -128,7 +178,7 @@ const Record = ({navigation}) => {
 
 				<TouchableOpacity
 					title="Hide modal"
-					onPress={handleSuccessModal}
+					onPress={handleSuccessAttendance}
 					className="bg-black px-12 py-4 rounded-lg flex-row justify-center mb-5">
 					<Text
 						style={{

@@ -1,23 +1,17 @@
 import React, {useState, useEffect} from "react";
 import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 import {ROUTES} from "./src/constants/ROUTES";
-import {BottomTabs} from "./src/navigation/";
-
-import {Home} from "./src/screens/";
-import {Login} from "./src/screens/";
-import {Splash} from "./src/screens/";
+import {Login} from "./src/screens";
 
 import {AuthNavigator, HomeStack} from "./src/navigation/";
 
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Fonts
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 const getFonts = () => {
 	return Font.loadAsync({
@@ -35,6 +29,30 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
 	const [fontsLoaded, setFontsLoaded] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+	useEffect(() => {
+		// Check if the user is already authenticated
+		checkAuthenticationStatus();
+		// Load fonts
+		// loadFonts();
+	}, []);
+
+	const checkAuthenticationStatus = async () => {
+		try {
+			// Check if the user is authenticated by looking for a token in AsyncStorage
+			const token = await AsyncStorage.getItem("userToken");
+			if (token) {
+				// User is authenticated, set isAuthenticated to true
+				setIsAuthenticated(true);
+			} else {
+				// User is not authenticated, set isAuthenticated to false
+				setIsAuthenticated(false);
+			}
+		} catch (error) {
+			console.error("Error checking authentication status:", error);
+		}
+	};
 
 	if (!fontsLoaded) {
 		return (
@@ -48,17 +66,16 @@ const App = () => {
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Splash">
+			<Stack.Navigator
+				initialRouteName={isAuthenticated ? ROUTES.Home : ROUTES.Login}>
 				<Stack.Screen
-					name={ROUTES.Splash}
-					component={AuthNavigator}
-					r
+					name={ROUTES.Login}
+					component={Login}
 					options={{headerShown: false}}
 				/>
 				<Stack.Screen
 					name={ROUTES.Home}
 					component={HomeStack}
-					r
 					options={{headerShown: false}}
 				/>
 			</Stack.Navigator>

@@ -26,7 +26,23 @@ const Login = () => {
 
 	const navigation = useNavigation();
 
-	// Timer
+	useEffect(() => {
+		// Check if the user is already logged in (preserving login state)
+		checkLoginState();
+	}, []);
+
+	const checkLoginState = async () => {
+		try {
+			// Check if the user is logged in by reading data from AsyncStorage
+			const userData = await AsyncStorage.getItem("userData");
+			if (userData) {
+				// If user data exists, it means the user is logged in
+				navigation.navigate("Home");
+			}
+		} catch (error) {
+			console.error("Error checking login state:", error);
+		}
+	};
 
 	const handleLogin = async () => {
 		// Check if either the student ID or PIN is missing

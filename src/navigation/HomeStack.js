@@ -19,7 +19,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => (
-	<Stack.Navigator>
+	<Stack.Navigator initialRouteName="">
 		<Stack.Screen
 			name={ROUTES.Home}
 			component={Home}

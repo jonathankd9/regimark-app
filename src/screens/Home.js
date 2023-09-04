@@ -12,6 +12,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ROUTES} from "./../constants/ROUTES";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BigProfile from "../../assets/files/bigprofile.png";
+import {AuthNavigator} from "../navigation";
 
 const Home = () => {
 	const navigation = useNavigation();
@@ -38,7 +39,7 @@ const Home = () => {
 
 	const handleStartScan = async () => {
 		navigation.navigate(ROUTES.StartScan);
-		navigation.navigate("StartScan");
+		// navigation.navigate("StartScan");
 	};
 
 	const handleLogout = async () => {
@@ -47,7 +48,7 @@ const Home = () => {
 			await AsyncStorage.removeItem("token");
 
 			// Navigate back to the login screen
-			navigation.navigate("Login");
+			navigation.navigate(ROUTES.Login);
 		} catch (error) {
 			// Handle error
 			console.log(error);
