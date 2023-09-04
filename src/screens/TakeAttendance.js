@@ -34,12 +34,12 @@ const Scan = ({navigation, route}) => {
 				</View>
 
 				<View>
-					{/* <Text
+					<Text
 						className="text-xl mb-5  text-center text-primary"
 						style={{fontFamily: "dmsans-bold"}}>
 						Scanned Data:
 						<Text style={{fontFamily: "dmsans-regular"}}>{scannedData}</Text>
-					</Text> */}
+					</Text>
 
 					{/* <Text
 						className="text-xl mb-5 text-primary"
