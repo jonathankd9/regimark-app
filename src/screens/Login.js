@@ -63,7 +63,7 @@ const Login = () => {
 
 			const {token} = response.data;
 			// Handle successful login response
-			console.log(response.data);
+			// console.log(response.data);
 			alert("Login successful");
 
 			// Store user data in local storage
